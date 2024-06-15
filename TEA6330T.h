@@ -7,6 +7,10 @@
  #include "WProgram.h"
 #endif
 #include <Wire.h>
+
+#define TEA6330T_CHANNEL_L  1
+#define TEA6330T_CHANNEL_R  2
+
 // First 8-bits select function
 typedef enum TEA6330T_SUBADDRESSES{
     VOL_LEFT        = 0b00000000, 
@@ -54,14 +58,13 @@ typedef enum TEA6330T_AUDIO_SWITCH{
 class TEA6330T{
     public:
         bool init();
-        void reset_TEA6330T();
         // Default address is 64 (Or at least the chip i have had this address)
         TEA6330T(const int addr = 0x40) : _wire{&Wire}, i2cAddress{addr} {}
         TEA6330T(TwoWire *w, const int addr = 0x40) : _wire{w}, i2cAddress{addr} {}
-        void incrementVolume(bool channel);
-        void decrementVolume(bool channel);
+        void incrementVolume(int channel);
+        void decrementVolume(int channel);
         // Set arbitrary volume in dB. Method accepts negative values. 
-        void setVolume(int8_t val, bool channel);
+        void setVolume(int8_t val, int channel);
     protected:
         TwoWire *_wire;
         int i2cAddress;

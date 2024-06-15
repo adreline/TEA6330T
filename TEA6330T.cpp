@@ -42,3 +42,51 @@ bool TEA6330T::init(){
     syncWithTEA6330T();
     return 1;
 }
+
+void TEA6330T::incrementVolume(int channel){
+    uint8_t current_volume = (channel == TEA6330T_CHANNEL_L) ? volume_l : volume_r;
+    uint8_t function = (channel == TEA6330T_CHANNEL_L) ? VOL_LEFT : VOL_RIGHT;
+    if(current_volume != VOL_GAIN_MAX){
+        uint8_t new_volume = current_volume++;
+        if(new_volume != VOL_GAIN_MAX){
+            writeToTEA6330T(function, new_volume);
+
+            if(channel == TEA6330T_CHANNEL_L){
+                volume_l = new_volume;
+            }else{
+                volume_r = new_volume;
+            }
+        }
+    }
+    
+}
+
+void TEA6330T::decrementVolume(int channel){
+    uint8_t current_volume = (channel == TEA6330T_CHANNEL_L) ? volume_l : volume_r;
+    uint8_t function = (channel == TEA6330T_CHANNEL_L) ? VOL_LEFT : VOL_RIGHT;
+    if(current_volume != VOL_GAIN_MIN){
+        uint8_t new_volume = current_volume--;
+        if(new_volume != VOL_GAIN_MIN){
+            writeToTEA6330T(function, new_volume);
+
+            if(channel == TEA6330T_CHANNEL_L){
+                volume_l = new_volume;
+            }else{
+                volume_r = new_volume;
+            }
+        }
+    }
+}
+
+void TEA6330T::setVolume(int8_t val, int channel){
+    uint8_t function = (channel == TEA6330T_CHANNEL_L) ? VOL_LEFT : VOL_RIGHT;
+    if( val >= VOL_GAIN_MIN && VOL_GAIN_MAX >= val  ){
+        writeToTEA6330T(function, val);
+
+        if(channel == TEA6330T_CHANNEL_L){
+            volume_l = val;
+        }else{
+            volume_r = val;
+        }
+    }
+}
