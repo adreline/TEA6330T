@@ -48,7 +48,9 @@ typedef enum TEA6330T_AUDIO_SWITCH{
 
 class TEA6330T{
     public:
-        // Default address is 64 (Or at least the chip i have)
+        bool init();
+        void reset_TEA6330T();
+        // Default address is 64 (Or at least the chip i have had this address)
         TEA6330T(const int addr = 0x64) : _wire{&Wire}, i2cAddress{addr} {}
         void incrementVolume(byte channel);
         void decrementVolume(byte channel);
@@ -65,4 +67,7 @@ class TEA6330T{
         bool fader_enabled;
         bool global_mute;
         bool equalizer_takeover;
+
+        void writeToTEA6330T(uint8_t function, uint8_t val);
+        void syncWithTEA6330T();
 }
