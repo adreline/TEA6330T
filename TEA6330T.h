@@ -1,5 +1,7 @@
 #include <Wire.h>
 
+#define byte CHANNEL_LEFT    1
+#define byte CHANNEL_RIGHT   0
 // First 8-bits select function
 typedef enum TEA6330T_SUBADDRESSES{
     VOL_LEFT        = 0b00000000, 
@@ -42,4 +44,25 @@ typedef enum TEA6330T_AUDIO_SWITCH{
     GLOBAL_MUTE_OFF         = 0b00000000,
     EQUALIZER_TAKEOVER_OFF  = 0b01000000,
     EQUALIZER_TAKEOVER_ON   = 0b00000000,
+}
+
+class TEA6330T{
+    public:
+        // Default address is 64 (Or at least the chip i have)
+        TEA6330T(const int addr = 0x64) : _wire{&Wire}, i2cAddress{addr} {}
+        void incrementVolume(byte channel);
+        void decrementVolume(byte channel);
+        // Set arbitrary volume in dB. Method accepts negative values. 
+        void setVolume(int8_t val, byte channel);
+    protected:
+        // Current operating values. Chip does not support reading, so these need to be set to default on each reset.
+        uint8_t volume_r;
+        uint8_t volume_l;
+        uint8_t fader_rear;
+        uint8_t fader_front;
+        uint8_t bass_gain;
+        uint8_t treble_gain;
+        bool fader_enabled;
+        bool global_mute;
+        bool equalizer_takeover;
 }
