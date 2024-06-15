@@ -7,8 +7,10 @@ void TEA6330T::syncWithTEA6330T(){
     writeToTEA6330T(TREBLE, treble_gain);
     writeToTEA6330T(FADER, fader_rear);
     writeToTEA6330T(FADER, fader_front);
-    // TODO
-    //writeToTEA6330T(AUDIO_SWITCH, fader_front);
+    
+    uint8_t gu = global_mute ? GLOBAL_MUTE_ON : GLOBAL_MUTE_OFF;
+    uint8_t eq = equalizer_takeover ? EQUALIZER_TAKEOVER_ON : EQUALIZER_TAKEOVER_OFF;
+    writeToTEA6330T(AUDIO_SWITCH, (gu + eq));
 }
 
 void TEA6330T::writeToTEA6330T(uint8_t function, uint8_t val){
