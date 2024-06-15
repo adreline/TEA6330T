@@ -56,8 +56,8 @@ class TEA6330T{
         bool init();
         void reset_TEA6330T();
         // Default address is 64 (Or at least the chip i have had this address)
-        TEA6330T(const int addr = 0x64) : _wire{&Wire}, i2cAddress{addr} {}
-        TEA6330T(TwoWire *w, const int addr = 0x64) : _wire{w}, i2cAddress{addr} {}
+        TEA6330T(const int addr = 0x40) : _wire{&Wire}, i2cAddress{addr} {}
+        TEA6330T(TwoWire *w, const int addr = 0x40) : _wire{w}, i2cAddress{addr} {}
         void incrementVolume(bool channel);
         void decrementVolume(bool channel);
         // Set arbitrary volume in dB. Method accepts negative values. 
