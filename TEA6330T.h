@@ -10,21 +10,21 @@ typedef enum TEA6330T_SUBADDRESSES{
     AUDIO_SWITCH    = 0b00000101,
 } subAddress;
 
-typedef enum TEA6330T_VOLUMECONTROLL{
+typedef enum TEA6330T_VOLUMECONTROL{
     BASE            = 0b00110101, // No gain
     GAIN_MAX        = 0b00111111, // +20dB
     GAIN_MIN        = 0b00010100, // -66dB
     MUTE_CHANNEL    = 0b00000000, // One of 3 mute signals
-} volControll;
+} volControl;
 
-// When external equalizer is enabled, treble controll doesn't work and bass controll can only go in positive direction
-typedef enum TEA6330T_BASS_OR_TREBLE_CONTROLL{
+// When external equalizer is enabled, treble controll doesn't work and bass control can only go in positive direction
+typedef enum TEA6330T_BASS_OR_TREBLE_CONTROL{
     BASE            = 0b00000111, // No gain
     GAIN_MAX        = 0b00001111, // +15dB bass or +12dB treble (Those values are already reached at 0b00001100 without filtering)
     GAIN_MIN        = 0b00000000, // -12dB bass and treble (Those values are already reached at 0b00000011 without filtering)
-} bassOrTrebleControll;
+} bassOrTrebleControl;
 
-typedef enum TEA6330T_FADER_CONTROLL{
+typedef enum TEA6330T_FADER_CONTROL{
     FRONT_OFF       = 0b00111111, // No gain
     REAR_OFF        = 0b00101111,
 
@@ -35,7 +35,7 @@ typedef enum TEA6330T_FADER_CONTROLL{
     REAR_MAX       = 0b00101110, // -2dB
     REAR_MIN       = 0b00100000, // -30dB
     REAR_MUTE      = 0b00001110, // Mute rear channel (-84dB)
-} faderControll;
+} faderControl;
 
 typedef enum TEA6330T_AUDIO_SWITCH{
     GLOBAL_MUTE_ON          = 0b10000000,
