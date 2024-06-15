@@ -1,7 +1,12 @@
-#include <Wire.h>
+#ifndef TEA6330T_H_
+#define TEA6330T_H_
 
-#define byte CHANNEL_LEFT    1
-#define byte CHANNEL_RIGHT   0
+#if (ARDUINO >= 100)
+ #include "Arduino.h"
+#else
+ #include "WProgram.h"
+#endif
+#include <Wire.h>
 // First 8-bits select function
 typedef enum TEA6330T_SUBADDRESSES{
     VOL_LEFT        = 0b00000000, 
@@ -52,11 +57,14 @@ class TEA6330T{
         void reset_TEA6330T();
         // Default address is 64 (Or at least the chip i have had this address)
         TEA6330T(const int addr = 0x64) : _wire{&Wire}, i2cAddress{addr} {}
-        void incrementVolume(byte channel);
-        void decrementVolume(byte channel);
+        TEA6330T(TwoWire *w, const int addr = 0x64) : _wire{w}, i2cAddress{addr} {}
+        void incrementVolume(bool channel);
+        void decrementVolume(bool channel);
         // Set arbitrary volume in dB. Method accepts negative values. 
-        void setVolume(int8_t val, byte channel);
+        void setVolume(int8_t val, bool channel);
     protected:
+        TwoWire *_wire;
+        int i2cAddress;
         // Current operating values. Chip does not support reading, so these need to be set to default on each reset.
         uint8_t volume_r;
         uint8_t volume_l;
@@ -70,4 +78,5 @@ class TEA6330T{
 
         void writeToTEA6330T(uint8_t function, uint8_t val);
         void syncWithTEA6330T();
-}
+};
+#endif
