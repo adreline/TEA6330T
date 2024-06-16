@@ -178,3 +178,17 @@ void TEA6330T::resetEq(uint8_t channel = 0){
         treble_gain = BOT_BASE;
     }
 }
+
+void TEA6330T::setFaderGain(int val, int channel){
+    if(!fader_enabled){ return; }
+    uint8_t gain = dbToWord(val, FADER, channel);
+    writeToTEA6330T(FADER, gain);
+    if(channel == TEA6330T_FADER_F){
+        fader_front = gain;
+    }
+    if(channel == TEA6330T_FADER_R){
+        fader_rear = gain;
+    }
+}
+
+}
