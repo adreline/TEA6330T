@@ -207,3 +207,20 @@ void TEA6330T::resetFader(int channel = 0){
         fader_rear = FADER_REAR_OFF;
     }
 }
+
+void TEA6330T::muteFader(int channel = 0){
+    if(channel == 0){
+        writeToTEA6330T(FADER, FADER_FRONT_MUTE);
+        writeToTEA6330T(FADER, FADER_REAR_MUTE);
+        fader_front = FADER_FRONT_MUTE;
+        fader_rear = FADER_REAR_MUTE;
+    }
+    if(channel == TEA6330T_FADER_F){
+        writeToTEA6330T(FADER, FADER_FRONT_MUTE);
+        fader_front = FADER_FRONT_MUTE;
+    }
+    if(channel == TEA6330T_FADER_R){
+        writeToTEA6330T(FADER, FADER_REAR_MUTE);
+        fader_rear = FADER_REAR_MUTE;
+    }
+}
