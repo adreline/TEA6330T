@@ -150,5 +150,31 @@ void TEA6330T::resetVolume(int channel = 0){
     }
 }
 
+void TEA6330T::setBassGain(int val){
+    uint8_t gain = dbToWord(val, BASS);
+    writeToTEA6330T(BASS, gain);
+    bass_gain = gain;
+}
+
+void TEA6330T::setTrebleGain(int val){
+    uint8_t gain = dbToWord(val, TREBLE);
+    writeToTEA6330T(TREBLE, gain);
+    treble_gain = gain;
+}
+
+void TEA6330T::resetEq(uint8_t channel = 0){
+    if(channel == 0){
+        writeToTEA6330T(BASS, BOT_BASE);
+        writeToTEA6330T(TREBLE, BOT_BASE);
+        bass_gain = BOT_BASE;
+        treble_gain = BOT_BASE;
+    }
+    if(channel == BASS){
+        writeToTEA6330T(BASS, BOT_BASE);
+        bass_gain = BOT_BASE;
+    }
+    if(channel == TREBLE){
+        writeToTEA6330T(TREBLE, BOT_BASE);
+        treble_gain = BOT_BASE;
     }
 }
