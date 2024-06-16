@@ -25,6 +25,8 @@ Connect chip pins 3 and 10 to the power supply's ground. Connect chip pin 18 to 
 
 > Both analog and digital ground pins (3 and 10) need to be grounded for TEA6330T to work, otherwise it can get damaged.
 
+Note that TEA6330T ideally needs 8.5V on its power supply pin. Despite that, the I2C sector works with both 3.3V and 5V logic. 
+
 This setup should allow for the chip to be discovered on the I2C lines via the I2C scanner script and for the commands to be sent to it.
 
 ## Disclaimer
