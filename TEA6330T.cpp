@@ -80,13 +80,58 @@ void TEA6330T::decrementVolume(int channel){
 
 void TEA6330T::setVolume(int8_t val, int channel){
     uint8_t function = (channel == TEA6330T_CHANNEL_L) ? VOL_LEFT : VOL_RIGHT;
-    if( val >= VOL_GAIN_MIN && VOL_GAIN_MAX >= val  ){
-        writeToTEA6330T(function, val);
+    uint8_t word = dbToWord(val);
+    if( word >= VOL_GAIN_MIN && VOL_GAIN_MAX >= word  ){
+        writeToTEA6330T(function, word);
 
         if(channel == TEA6330T_CHANNEL_L){
-            volume_l = val;
+            volume_l = word;
         }else{
-            volume_r = val;
+            volume_r = word;
         }
     }
+}
+
+uint8_t TEA6330T::dbToWord(int dB, uint8_t function, uint8_t fader_channel = 1){
+
+    int fromLow = 0;
+    int fromHigh = 0;
+    int toLow = 0;
+    int toHigh = 0;
+
+    switch(function){
+        case VOL_LEFT:
+        case VOL_RIGHT:
+            fromLow = -66;
+            fromHigh = 20;
+            toLow = VOL_GAIN_MIN;
+            toHigh = VOL_GAIN_MAX;
+            break;
+        case BASS:
+            fromLow = -12;
+            fromHigh = 15;
+            toLow = BOT_GAIN_MIN;
+            toHigh = BOT_GAIN_MAX;
+            break;
+        case TREBLE:
+            fromLow = -12;
+            fromHigh = 12;
+            toLow = BOT_GAIN_MIN;
+            toHigh = BOT_GAIN_MAX;
+            break;
+        case FADER:
+            fromLow = -30;
+            fromHigh = -2;
+            if(fader_channel == TEA6330T_FADER_F){
+                toLow = FADER_FRONT_MIN;
+                toHigh = FADER_FRONT_MAX;
+            }else{
+                toLow = FADER_REAR_MIN;
+                toHigh = FADER_REAR_MAX;
+            }
+            break;
+        default:
+        break;
+    }
+   return map(dB, fromLow, fromHigh, toLow, toHigh);
 }
