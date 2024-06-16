@@ -135,13 +135,20 @@ uint8_t TEA6330T::dbToWord(int dB, uint8_t function, uint8_t fader_channel = 1){
 
 void TEA6330T::resetVolume(int channel = 0){
     if(channel == 0){
-        setVolume(VOL_BASE, TEA6330T_CHANNEL_L);
-        setVolume(VOL_BASE, TEA6330T_CHANNEL_R);
+        writeToTEA6330T(VOL_LEFT, VOL_BASE);
+        writeToTEA6330T(VOL_RIGHT, VOL_BASE);
+        volume_l = VOL_BASE;
+        volume_r = VOL_BASE;
     }
     if(channel == TEA6330T_CHANNEL_L){
-        setVolume(VOL_BASE, TEA6330T_CHANNEL_L);
+        writeToTEA6330T(VOL_LEFT, VOL_BASE);
+        volume_l = VOL_BASE;
     }
     if(channel == TEA6330T_CHANNEL_R){
-        setVolume(VOL_BASE, TEA6330T_CHANNEL_R);
+        writeToTEA6330T(VOL_RIGHT, VOL_BASE);
+        volume_r = VOL_BASE;
+    }
+}
+
     }
 }
