@@ -81,8 +81,8 @@ class TEA6330T{
         void resetEq(uint8_t channel = 0);
         // Set fader gain (working range is -2 <-> -30) on either Front or Rear channel. Method accepts negative values.
         void setFaderGain(int val, int channel);
-        // Resets fader channels gain to default values (no gain)
-        void resetFader();
+        // Resets fader channel (or all channels is no channel is provided) gain to default values (no gain)
+        void resetFader(int channel = 0);
         // Mute front or rear channel 
         void muteFader(int channel);
         // Enable or disable global hardware mute
