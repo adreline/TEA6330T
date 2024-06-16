@@ -81,14 +81,11 @@ void TEA6330T::decrementVolume(int channel){
 void TEA6330T::setVolume(int8_t val, int channel){
     uint8_t function = (channel == TEA6330T_CHANNEL_L) ? VOL_LEFT : VOL_RIGHT;
     uint8_t word = dbToWord(val);
-    if( word >= VOL_GAIN_MIN && VOL_GAIN_MAX >= word  ){
-        writeToTEA6330T(function, word);
-
-        if(channel == TEA6330T_CHANNEL_L){
-            volume_l = word;
-        }else{
-            volume_r = word;
-        }
+    writeToTEA6330T(function, word);
+    if(channel == TEA6330T_CHANNEL_L){
+        volume_l = word;
+    }else{
+        volume_r = word;
     }
 }
 
