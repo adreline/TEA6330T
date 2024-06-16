@@ -191,4 +191,19 @@ void TEA6330T::setFaderGain(int val, int channel){
     }
 }
 
+void TEA6330T::resetFader(int channel = 0){
+    if(channel == 0){
+        writeToTEA6330T(FADER, FADER_FRONT_OFF);
+        writeToTEA6330T(FADER, FADER_REAR_OFF);
+        fader_front = FADER_FRONT_OFF;
+        fader_rear = FADER_REAR_OFF;
+    }
+    if(channel == TEA6330T_FADER_F){
+        writeToTEA6330T(FADER, FADER_FRONT_OFF);
+        fader_front = FADER_FRONT_OFF;
+    }
+    if(channel == TEA6330T_FADER_R){
+        writeToTEA6330T(FADER, FADER_REAR_OFF);
+        fader_rear = FADER_REAR_OFF;
+    }
 }
