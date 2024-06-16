@@ -71,8 +71,8 @@ class TEA6330T{
         void decrementVolume(int channel);
         // Set arbitrary volume in dB (working range is 20 <-> -66). Method accepts negative values. 
         void setVolume(int val, int channel);
-        // Resets volume to default values (no gain) on both channels
-        void resetVolume();
+        // Resets volume to default value (no gain) on specified channel (or on both channels if no channel is specified)
+        void resetVolume(int channel = 0);
         // Set Bass gain (working range is 15 <-> -12). Method accepts negative values.
         void setBassGain(int val);
         // Set Treble gain (working range is 12 <-> -12). Method accepts negative values.
@@ -107,6 +107,6 @@ class TEA6330T{
         // Writes all fields from this object to the chip
         void syncWithTEA6330T();
         // Translates an arbitrary dB value to 8-bit word that can be sent to the chip
-        uint8_t dbToWord(int dB, uint8_t max, uint8_t min);
+        uint8_t dbToWord(int dB, uint8_t function, uint8_t fader_channel = 1);
 };
 #endif

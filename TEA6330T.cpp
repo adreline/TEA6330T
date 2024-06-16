@@ -135,3 +135,16 @@ uint8_t TEA6330T::dbToWord(int dB, uint8_t function, uint8_t fader_channel = 1){
     }
    return map(dB, fromLow, fromHigh, toLow, toHigh);
 }
+
+void TEA6330T::resetVolume(int channel = 0){
+    if(channel == 0){
+        setVolume(VOL_BASE, TEA6330T_CHANNEL_L);
+        setVolume(VOL_BASE, TEA6330T_CHANNEL_R);
+    }
+    if(channel == TEA6330T_CHANNEL_L){
+        setVolume(VOL_BASE, TEA6330T_CHANNEL_L);
+    }
+    if(channel == TEA6330T_CHANNEL_R){
+        setVolume(VOL_BASE, TEA6330T_CHANNEL_R);
+    }
+}
