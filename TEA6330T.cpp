@@ -224,3 +224,25 @@ void TEA6330T::muteFader(int channel = 0){
         fader_rear = FADER_REAR_MUTE;
     }
 }
+
+void TEA6330T::mute(bool mute){
+    uint8_t eq_state = equalizer_takeover ? EQUALIZER_TAKEOVER_ON : EQUALIZER_TAKEOVER_OFF;
+    if(mute){
+        uint8_t word = GLOBAL_MUTE_ON + eq_state;
+    }else{
+        uint8_t word = GLOBAL_MUTE_OFF + eq_state;
+    }
+    writeToTEA6330T(AUDIO_SWITCH, word);
+    global_mute = mute;
+}
+
+void TEA6330T::letEqualizerTakeover(bool eq){
+    uint8_t mute_state = global_mute ? GLOBAL_MUTE_ON : GLOBAL_MUTE_OFF;
+    if(eq){
+        uint8_t word = EQUALIZER_TAKEOVER_ON + mute_state;
+    }else{
+        uint8_t word = EQUALIZER_TAKEOVER_OFF + mute_state;
+    }
+    writeToTEA6330T(AUDIO_SWITCH, word);
+    equalizer_takeover = eq;
+}
