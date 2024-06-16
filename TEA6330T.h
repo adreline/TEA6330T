@@ -77,8 +77,8 @@ class TEA6330T{
         void setBassGain(int val);
         // Set Treble gain (working range is 12 <-> -12). Method accepts negative values.
         void setTrebleGain(int val);
-        // Resets bass and treble gain to default values (no gain)
-        void resetEq();
+        // Resets bass or treble (or both if no channel is supplied) gain to default values (no gain)
+        void resetEq(uint8_t channel = 0);
         // Set fader gain (working range is -2 <-> -30) on either Front or Rear channel. Method accepts negative values.
         void setFaderGain(int val, int channel);
         // Resets fader channels gain to default values (no gain)
