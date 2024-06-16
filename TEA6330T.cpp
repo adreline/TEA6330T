@@ -78,9 +78,9 @@ void TEA6330T::decrementVolume(int channel){
     }
 }
 
-void TEA6330T::setVolume(int8_t val, int channel){
+void TEA6330T::setVolume(int val, int channel){
     uint8_t function = (channel == TEA6330T_CHANNEL_L) ? VOL_LEFT : VOL_RIGHT;
-    uint8_t word = dbToWord(val);
+    uint8_t word = dbToWord(val, function);
     writeToTEA6330T(function, word);
     if(channel == TEA6330T_CHANNEL_L){
         volume_l = word;
@@ -231,6 +231,7 @@ void TEA6330T::muteFader(int channel = 0){
 
 void TEA6330T::mute(bool mute){
     uint8_t eq_state = equalizer_takeover ? EQUALIZER_TAKEOVER_ON : EQUALIZER_TAKEOVER_OFF;
+    uint8_t word = NULL;
     if(mute){
         uint8_t word = GLOBAL_MUTE_ON + eq_state;
     }else{
@@ -242,6 +243,7 @@ void TEA6330T::mute(bool mute){
 
 void TEA6330T::letEqualizerTakeover(bool eq){
     uint8_t mute_state = global_mute ? GLOBAL_MUTE_ON : GLOBAL_MUTE_OFF;
+    uint8_t word = NULL;
     if(eq){
         uint8_t word = EQUALIZER_TAKEOVER_ON + mute_state;
     }else{
