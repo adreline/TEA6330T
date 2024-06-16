@@ -11,6 +11,9 @@
 #define TEA6330T_CHANNEL_L  1
 #define TEA6330T_CHANNEL_R  2
 
+#define TEA6330T_FADER_F  1
+#define TEA6330T_FADER_R  2
+
 // First 8-bits select function
 typedef enum TEA6330T_SUBADDRESSES{
     VOL_LEFT        = 0b00000000, 
@@ -57,14 +60,35 @@ typedef enum TEA6330T_AUDIO_SWITCH{
 
 class TEA6330T{
     public:
+        // If your chip is failing to initialize, use i2c scanner script to determine if your address matches the default one used here. Otherwise check your wiring.
         bool init();
         // Default address is 64 (Or at least the chip i have had this address)
         TEA6330T(const int addr = 0x40) : _wire{&Wire}, i2cAddress{addr} {}
         TEA6330T(TwoWire *w, const int addr = 0x40) : _wire{w}, i2cAddress{addr} {}
+        // Bump volume by 1 step in positive direction (increase volume)
         void incrementVolume(int channel);
+        // Bump volume by 1 step in negative direction (decrease volume)
         void decrementVolume(int channel);
-        // Set arbitrary volume in dB. Method accepts negative values. 
-        void setVolume(int8_t val, int channel);
+        // Set arbitrary volume in dB (working range is 20 <-> -66). Method accepts negative values. 
+        void setVolume(int val, int channel);
+        // Resets volume to default values (no gain) on both channels
+        void resetVolume();
+        // Set Bass gain (working range is 15 <-> -12). Method accepts negative values.
+        void setBassGain(int val);
+        // Set Treble gain (working range is 12 <-> -12). Method accepts negative values.
+        void setTrebleGain(int val);
+        // Resets bass and treble gain to default values (no gain)
+        void resetEq();
+        // Set fader gain (working range is -2 <-> -30) on either Front or Rear channel. Method accepts negative values.
+        void setFaderGain(int val, int channel);
+        // Resets fader channels gain to default values (no gain)
+        void resetFader();
+        // Mute front or rear channel 
+        void muteFader(int channel);
+        // Enable or disable global hardware mute
+        void mute(bool mute);
+        // Enable or disable the external equalizer takeover
+        void letEqualizerTakeover(bool eq);
     protected:
         TwoWire *_wire;
         int i2cAddress;
@@ -78,8 +102,11 @@ class TEA6330T{
         bool fader_enabled;
         bool global_mute;
         bool equalizer_takeover;
-
+        // Writes single value at specified subaddress
         void writeToTEA6330T(uint8_t function, uint8_t val);
+        // Writes all fields from this object to the chip
         void syncWithTEA6330T();
+        // Translates an arbitrary dB value to 8-bit word that can be sent to the chip
+        uint8_t dbToWord(int dB, uint8_t max, uint8_t min);
 };
 #endif
